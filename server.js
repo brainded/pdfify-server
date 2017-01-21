@@ -197,7 +197,7 @@ if (town.isMaster) {
         var sheet = window.document.styleSheets[0];
         var rule = 'body { -webkit-print-color-adjust: exact !important; zoom: ' + zoomFactor + '; }'
         var index = 0;
-        if (sheet.cssRules && sheet.cssRules.length) {
+        if (sheet && sheet.cssRules && sheet.cssRules.length) {
           index = sheet.cssRules.length;
         }
         sheet.insertRule(rule, index);
