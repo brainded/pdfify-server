@@ -194,13 +194,15 @@ if (town.isMaster) {
       // We can use here only ES5 since.
       // page.evaluate passes function to PhantomJs.
       return page.evaluate(function(zoomFactor) {
-        var sheet = window.document.styleSheets[0];
         var rule = 'body { -webkit-print-color-adjust: exact !important; zoom: ' + zoomFactor + '; }'
-        var index = 0;
-        if (sheet && sheet.cssRules && sheet.cssRules.length) {
-          index = sheet.cssRules.length;
+        var sheet = window.document.styleSheets[0];
+        if (sheet) {
+          var index = 0;
+          if (sheet.cssRules && sheet.cssRules.length){
+            index = sheet.cssRules.length;
+          }
+          sheet.insertRule(rule, index);
         }
-        sheet.insertRule(rule, index);
       }, data.zoomFactor);
     }).then(() => {
       return page.render(tmpFile, {
