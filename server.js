@@ -185,7 +185,7 @@ if (town.isMaster) {
       if (data.url && data.url.length) {
         return page.open(data.url);
       } else {
-        return page.setContent(data.html);
+        return page.open('data:text/html,' + data.html);
       }
     }).then((status) => {
       if (status === 'fail') {
