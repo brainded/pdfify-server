@@ -120,11 +120,6 @@ if (town.isMaster) {
     });
   };
 
-  /*
-    URL for testing:
-
-    http://localhost:3000/convert?format=binary&html=%3C!DOCTYPE%20html%3E%3Chtml%20lang=%22en%22%3E%3Chead%3E%3Ctitle%3Etest%3C/title%3E%3C/head%3E%3Cbody%3E%3Ch1%20style=%22text-align:center;%22%3EHtml%20to%20PDF%3C/h1%3E%3C/body%3E%3C/html%3E
-  */
   app.get('/convert', queuePdf);
   app.post('/convert', queuePdf);
 
@@ -132,7 +127,7 @@ if (town.isMaster) {
   app.use((req, res, next) => {
     let err = new Error('Not Found');
     err.status = 404;
-    next(err);
+    next(err, null);
   });
 
   // error handler
@@ -182,6 +177,12 @@ if (town.isMaster) {
 
       return page.property('paperSize', paperProperties);
     }).then(() => {
+      return page.property('onResourceError', function (resourceError){
+        console.log('Unable to load resource (#' + resourceError.id + 'URL:' + resourceError.url + ')');
+        console.log('Error code: ' + resourceError.errorCode + '. Description: ' + resourceError.errorString);
+      })
+    })
+    .then(() => {
       if (data.url && data.url.length) {
         return page.open(data.url);
       } else {
@@ -197,6 +198,7 @@ if (town.isMaster) {
         var rule = 'body { -webkit-print-color-adjust: exact !important; zoom: ' + zoomFactor + '; }'
         var sheet = window.document.styleSheets[0];
         if (sheet) {
+          console.log('Style sheet found!');
           var index = 0;
           if (sheet.cssRules && sheet.cssRules.length){
             index = sheet.cssRules.length;
