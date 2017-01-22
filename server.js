@@ -188,8 +188,8 @@ if (town.isMaster) {
       } else {
         return page.open('data:text/html,' + data.html, function (status){
           window.setTimeout(function (){
-            console.log('waiting 3 seconds for js download...');
-          }, 3000);
+            console.log('waiting 10 seconds for js download...');
+          }, 10000);
         });
       }
     }).then((status) => {
