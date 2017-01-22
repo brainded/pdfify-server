@@ -186,7 +186,11 @@ if (town.isMaster) {
       if (data.url && data.url.length) {
         return page.open(data.url);
       } else {
-        return page.open('data:text/html,' + data.html);
+        return page.open('data:text/html,' + data.html, function (status){
+          window.setTimeout(function (){
+            console.log('waiting 3 seconds for js download...');
+          }, 3000);
+        });
       }
     }).then((status) => {
       if (status === 'fail') {
